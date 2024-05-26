@@ -65,7 +65,8 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    'animalgram.herokuapp.com'
+    'animalgram.herokuapp.com',
+    'https://animalgram-drf-7f407bfe4a76.herokuapp.com/',
 ]
 
 
@@ -112,8 +113,7 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
-    'messaging'
-
+    'messaging',
 ]
 SITE_ID = 1
 MIDDLEWARE = [
@@ -124,7 +124,7 @@ MIDDLEWARE = [
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',    
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',   
 ]
 
 ROOT_URLCONF = 'drf_api.urls'
