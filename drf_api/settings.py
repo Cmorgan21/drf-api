@@ -63,10 +63,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOST'),
     'localhost',
-    '127.0.0.1',
-    'animalgram.herokuapp.com',
-    'https://animalgram-drf-7f407bfe4a76.herokuapp.com/',
 ]
 
 
