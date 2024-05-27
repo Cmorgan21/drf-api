@@ -18,12 +18,6 @@ from corsheaders.defaults import default_headers, default_methods
 if os.path.exists('env.py'):
     import env
 
-# THE FOLLOWING CODE IS FOR USING GITPOD
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
 
 # from mentor's settings.py
 # Suggesrted by stackoverflow after migrating to render :
