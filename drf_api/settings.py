@@ -30,7 +30,6 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-<<<<<<< HEAD
     '127.0.0.1:3000',
     'localhost:3000',
     'http://127.0.0.1:8000',
