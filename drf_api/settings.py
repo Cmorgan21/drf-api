@@ -1,4 +1,3 @@
-
 """
 Django settings for drf_api project.
 
@@ -19,11 +18,16 @@ import dj_database_url
 if os.path.exists('env.py'):
     import env
 
+# Debugging information to check if the environment variables are being picked up
+print(f"CLIENT_ORIGIN: {os.environ.get('CLIENT_ORIGIN')}")
+print(f"CLIENT_ORIGIN_DEV: {os.environ.get('CLIENT_ORIGIN_DEV')}")
+
 CLOUDINARY_STORAGE = {
     'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
 }
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -33,8 +37,7 @@ REST_FRAMEWORK = {
         if 'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     )],
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %b %Y',
 }
@@ -63,8 +66,14 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    os.environ.get('ALLOWED_HOST'),
+    os.environ.get('ALLOWED_HOSTS'),
     'localhost',
+    '127.0.0.1',
+    '127.0.0.1:3000',
+    'localhost:3000',
+    'http://127.0.0.1:8000',
+    'animalgram-drf-7f407bfe4a76.herokuapp.com',
+    'https://animalgram-880788cab506.herokuapp.com',
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
@@ -72,13 +81,16 @@ if 'CLIENT_ORIGIN' in os.environ:
         os.environ.get('CLIENT_ORIGIN')
     ]
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(
-        r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE
-    ).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
+client_origin_dev = os.environ.get('CLIENT_ORIGIN_DEV', None)
+if client_origin_dev:
+    match = re.match(r'^.+-', client_origin_dev, re.IGNORECASE)
+    if match:
+        extracted_url = match.group(0)
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+        ]
+else:
+    print("CLIENT_ORIGIN_DEV is not set.")
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -109,9 +121,11 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
-    'messsaging'
+    'messaging'
 ]
+
 SITE_ID = 1
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -121,6 +135,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'drf_api.urls'
