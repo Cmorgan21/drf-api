@@ -129,6 +129,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://animalgram-880788cab506.herokuapp.com',
+    'https://res.cloudinary.com'
 ]
 
 ROOT_URLCONF = 'drf_api.urls'
