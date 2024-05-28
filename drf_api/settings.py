@@ -8,12 +8,29 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')
+# Adjust the rendering settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [(
+        'rest_framework.authentication.SessionAuthentication'
+        if 'DEV' in os.environ
+        else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    )],
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DATETIME_FORMAT': '%d %b %Y',
+}
+if 'DEV' not in os.environ:
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
 
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+<<<<<<< HEAD
     '127.0.0.1:3000',
     'localhost:3000',
     'http://127.0.0.1:8000',
@@ -25,10 +42,13 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://animalgram-880788cab506.herokuapp.com',
     'https://res.cloudinary.com'
+    'animalgram.herokuapp.com'
 ]
+
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
+
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -56,6 +76,8 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
+    'messaging'
+
 ]
 
 SITE_ID = 1
