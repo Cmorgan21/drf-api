@@ -73,24 +73,13 @@ ALLOWED_HOSTS = [
     'localhost:3000',
     'http://127.0.0.1:8000',
     'animalgram-drf-7f407bfe4a76.herokuapp.com',
-    'https://animalgram-880788cab506.herokuapp.com',
+    'animalgram-880788cab506.herokuapp.com',
 ]
 
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
         os.environ.get('CLIENT_ORIGIN')
     ]
-
-client_origin_dev = os.environ.get('CLIENT_ORIGIN_DEV', None)
-if client_origin_dev:
-    match = re.match(r'^.+-', client_origin_dev, re.IGNORECASE)
-    if match:
-        extracted_url = match.group(0)
-        CORS_ALLOWED_ORIGIN_REGEXES = [
-            rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-        ]
-else:
-    print("CLIENT_ORIGIN_DEV is not set.")
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -135,6 +124,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://animalgram-880788cab506.herokuapp.com',
 ]
 
 ROOT_URLCONF = 'drf_api.urls'
