@@ -9,14 +9,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'your-default-secret-key')
 # Adjust the rendering settings
+# Debugging information to check if the environment variables are being picked up
+print(f"CLIENT_ORIGIN: {os.environ.get('CLIENT_ORIGIN')}")
+print(f"CLIENT_ORIGIN_DEV: {os.environ.get('CLIENT_ORIGIN_DEV')}")
+
+CLOUDINARY_STORAGE = {
+    'CLOUDINARY_URL': os.environ.get('CLOUDINARY_URL')
+}
+MEDIA_URL = '/media/'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     )],
-    'DEFAULT_PAGINATION_CLASS':
-        'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %b %Y',
 }
@@ -28,6 +40,7 @@ if 'DEV' not in os.environ:
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOSTS'),
     'localhost',
     '127.0.0.1',
     '127.0.0.1:3000',
@@ -40,14 +53,15 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://animalgram-880788cab506.herokuapp.com',
-    'https://res.cloudinary.com'
+    'https://res.cloudinary.com',
     'animalgram.herokuapp.com'
 ]
 
-
 if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
 
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -76,7 +90,6 @@ INSTALLED_APPS = [
     'likes',
     'followers',
     'messaging'
-
 ]
 
 SITE_ID = 1
@@ -90,7 +103,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+    'https://animalgram-880788cab506.herokuapp.com',
+    'https://res.cloudinary.com'
 ]
 
 ROOT_URLCONF = 'drf_api.urls'
