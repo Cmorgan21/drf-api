@@ -40,9 +40,10 @@ ALLOWED_HOSTS = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://animalgram-880788cab506.herokuapp.com',
-    'https://res.cloudinary.com'
-    'animalgram.herokuapp.com'
+    'https://res.cloudinary.com',
+    'https://animalgram.herokuapp.com',
 ]
+
 
 
 if 'CLIENT_ORIGIN' in os.environ:
@@ -90,7 +91,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'drf_api.urls'
