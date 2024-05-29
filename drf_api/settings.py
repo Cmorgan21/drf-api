@@ -67,16 +67,11 @@ ALLOWED_HOSTS = [
     'animalgram-880788cab506.herokuapp.com',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'https://animalgram-880788cab506.herokuapp.com',
-    'https://res.cloudinary.com',
-    'https://animalgram.herokuapp.com',
-]
 
 if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS.append(os.environ.get('CLIENT_ORIGIN'))
-
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
